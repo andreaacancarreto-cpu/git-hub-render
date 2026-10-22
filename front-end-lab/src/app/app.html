@@ -1,0 +1,18 @@
+<!-- barra de arriba, se ve en todas las paginas -->
+<mat-toolbar class="barra">
+  <mat-icon>school</mat-icon>
+  <span class="titulo">Control de Estudiantes</span>
+  <span class="espacio"></span>
+
+  @if (auth.autenticado()) {
+    <span class="rol">Rol: {{ auth.rolNombre() }}</span>
+    <button mat-button type="button" (click)="salir()">
+      <mat-icon>logout</mat-icon>
+      Salir
+    </button>
+  }
+</mat-toolbar>
+
+<main>
+  <router-outlet />
+</main>

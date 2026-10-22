@@ -1,0 +1,26 @@
+.contenedor {
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 420px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.error {
+  color: var(--mat-sys-error);
+  margin: 0 0 12px;
+}
+
+mat-card-actions span {
+  color: var(--mat-sys-on-surface-variant);
+}

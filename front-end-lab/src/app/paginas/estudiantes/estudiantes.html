@@ -1,0 +1,96 @@
+<div class="pagina">
+  <!-- formulario: se arma solo con la lista CAMPOS_ESTUDIANTE -->
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>
+        {{ editandoId() ? 'Editar estudiante #' + editandoId() : 'Nuevo estudiante' }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="guardar()" class="formulario">
+        @for (campo of campos; track campo.nombre) {
+          <mat-form-field appearance="outline">
+            <mat-label>{{ campo.etiqueta }}</mat-label>
+            <input matInput
+              [type]="campo.tipo"
+              [formControlName]="campo.nombre"
+              [attr.step]="campo.tipo === 'number' ? '0.01' : null"
+              [attr.maxlength]="campo.maxLength ?? null" />
+            @if (form.controls[campo.nombre].hasError('required')) {
+              <mat-error>{{ campo.etiqueta }} es obligatorio</mat-error>
+            } @else if (form.controls[campo.nombre].hasError('min')) {
+              <mat-error>Mínimo {{ campo.min }}</mat-error>
+            } @else if (form.controls[campo.nombre].hasError('max')) {
+              <mat-error>Máximo {{ campo.max }}</mat-error>
+            } @else if (form.controls[campo.nombre].hasError('maxlength')) {
+              <mat-error>Máximo {{ campo.maxLength }} caracteres</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        <div class="botones">
+          <button mat-flat-button type="submit" [disabled]="guardando()">
+            <mat-icon>save</mat-icon>
+            {{ editandoId() ? 'Actualizar' : 'Guardar' }}
+          </button>
+          @if (editandoId()) {
+            <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- tabla con lo que devuelve GET /api/estudiante -->
+  <mat-card appearance="outlined">
+    <mat-card-header class="encabezado-tabla">
+      <mat-card-title>Estudiantes registrados</mat-card-title>
+      <button mat-icon-button type="button" (click)="cargar()" matTooltip="Recargar" aria-label="Recargar">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+
+    @if (cargando()) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+
+    <mat-card-content>
+      <div class="tabla-contenedor">
+        <table mat-table [dataSource]="estudiantes()">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let e">{{ e.id }}</td>
+          </ng-container>
+
+          @for (campo of campos; track campo.nombre) {
+            <ng-container [matColumnDef]="campo.nombre">
+              <th mat-header-cell *matHeaderCellDef>{{ campo.etiqueta }}</th>
+              <td mat-cell *matCellDef="let e">{{ valorCelda(e, campo) }}</td>
+            </ng-container>
+          }
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let e">
+              <button mat-icon-button type="button" (click)="editar(e)" matTooltip="Editar" aria-label="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button type="button" class="borrar" (click)="eliminar(e)" matTooltip="Eliminar" aria-label="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+          <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="vacio" [attr.colspan]="columnas.length">
+              {{ cargando() ? 'Cargando...' : 'Todavía no hay estudiantes registrados' }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

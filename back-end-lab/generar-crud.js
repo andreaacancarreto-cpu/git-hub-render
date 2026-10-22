@@ -74,14 +74,15 @@ exports.eliminar = async (req, res) => {
 
 const routesCode = `const { Router } = require('express');
 const router = Router();
+const verifyToken = require('../middlewares/verifyToken');
 const controller = require('../controllers/${nombreMin}.controller');
 
-// rutas del CRUD de ${nombreMin}
+// rutas del CRUD de ${nombreMin} (crear, editar y borrar piden token)
 router.get('/', controller.obtenerTodos);
 router.get('/:id', controller.obtenerPorId);
-router.post('/', controller.crear);
-router.put('/:id', controller.actualizar);
-router.delete('/:id', controller.eliminar);
+router.post('/', verifyToken, controller.crear);
+router.put('/:id', verifyToken, controller.actualizar);
+router.delete('/:id', verifyToken, controller.eliminar);
 
 module.exports = router;
 `;

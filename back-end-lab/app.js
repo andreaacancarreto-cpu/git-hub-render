@@ -26,6 +26,12 @@ app.get("/", (req, res) => {
 });
 
 // rutas de la api
+const authRoutes = require('./server/routes/auth.routes');
+app.use('/api/auth', authRoutes);
+
+const ejemploRoutes = require('./server/routes/ejemplo.routes');
+app.use('/api/ejemplo', ejemploRoutes);
+
 const estudianteRoutes = require('./server/routes/estudiante.routes');
 app.use('/api/estudiante', estudianteRoutes);
 

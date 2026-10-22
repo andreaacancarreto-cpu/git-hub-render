@@ -8,6 +8,12 @@ const PORT = process.env.PORT || 8010;
 
 // primero se prueba la conexion a la bd y si funciona se levanta el servidor
 async function iniciar() {
+  // sin esta clave no se pueden firmar los tokens del login
+  if (!process.env.JWT_SECRET) {
+    console.error('Falta JWT_SECRET en el .env (o en las variables de render)');
+    process.exit(1);
+  }
+
   try {
     await sequelize.authenticate();
     console.log('Conexión a PostgreSQL establecida correctamente.');

@@ -1,0 +1,46 @@
+.pagina {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 12px;
+  margin-top: 16px;
+}
+
+.botones {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+}
+
+.encabezado-tabla {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// en celular la tabla se mueve de lado
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.borrar {
+  color: var(--mat-sys-error);
+}
+
+.vacio {
+  text-align: center;
+  padding: 24px;
+  color: var(--mat-sys-on-surface-variant);
+}

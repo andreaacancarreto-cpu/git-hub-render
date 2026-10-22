@@ -1,0 +1,25 @@
+.barra {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  gap: 8px;
+}
+
+.barra button {
+  color: var(--mat-sys-on-primary);
+}
+
+.espacio {
+  flex: 1;
+}
+
+.rol {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+// en celular se esconde el rol para que quepa la barra
+@media (max-width: 500px) {
+  .rol {
+    display: none;
+  }
+}
